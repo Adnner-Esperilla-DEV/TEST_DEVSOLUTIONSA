@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../css/styles.css" type="text/css">
+    <title>Document</title>
+</head>
+<style></style>
+<body>
+        <p id="tabla"></p>
+        <script>
+            
+            if (localStorage.getItem("page1") === null) {
+                const request = new XMLHttpRequest();
+                request.open('GET', 'https://reqres.in/api/users?page=1');
+                request.send();
+
+                request.onload = () => {
+                    if (request.status === 200) {
+                        console.log("Success");
+
+                        var obj = JSON.parse(request.response).data;                
+                        localStorage.setItem("page1", JSON.stringify(obj));                                     
+                    }
+                };
+            
+                request.onerror = () => {
+                console.log("error")
+                };
+            }
+            if (localStorage.getItem("page2") === null) {
+                const request = new XMLHttpRequest();
+                request.open('GET', 'https://reqres.in/api/users?page=2');
+                request.send();
+
+                request.onload = () => {
+                    if (request.status === 200) {
+                        console.log("Success");
+
+                        var obj = JSON.parse(request.response).data;                
+                        localStorage.setItem("page2", JSON.stringify(obj));                                     
+                    }
+                };
+            
+                request.onerror = () => {
+                console.log("error")
+                };
+
+            }
+            let datalocal = JSON.parse(localStorage.getItem("page1"))
+                        
+                            
+            console.log(datalocal)
+            var table="<table class='table'>";
+            table+="<tr><td>ID</td><td>EMAIL</td><td>DETALLES</td></tr>";
+            for (let i= 0; i < datalocal.length; i++) 
+            {
+                table+="<tr><td>"+datalocal[i].id+"</td><td>"+datalocal[i].email+"</td><td> <button class='btn primary' href='#modal' onclick='buscar_usuario_por_id("+datalocal[i].id+")'>"+"ver"+"</button></td></tr>";
+            }               
+            table+="</table>";
+            document.getElementById("tabla").innerHTML = table;
+
+            function cargarDatos(pagina){
+                var valor ="page1";
+                if (pagina==2) {
+                    valor="page2"
+                } 
+                let datalocal = JSON.parse(localStorage.getItem(valor))
+                var table="<table class='table'>";
+                table+="<tr><td>ID</td><td>EMAIL</td><td>DETALLES</td></tr>";
+                for (let i= 0; i < datalocal.length; i++) 
+                {
+                    table+="<tr><td>"+datalocal[i].id+"</td><td>"+datalocal[i].email+"</td><td> <button class='btn primary' href='#modal' onclick='buscar_usuario_por_id("+datalocal[i].id+")'>"+"ver"+"</button></td></tr>";
+                }               
+                table+="</table>";
+                document.getElementById("tabla").innerHTML = table;
+                console.log("fuinciona");
+            };
+        </script>
+            
+         <div style="text-align: center;">
+            <button type="button" class="btn secondary" onclick="cargarDatos(1)">1</button>
+            <button type="button" class="btn secondary" onclick="cargarDatos(2)">2</button>
+         </div>
+        
+        </body>
+
+        <!-- <button type="button"  onclick="buscar_usuario_por_id(2)">Open Modal</button> -->
+
+
+<div id="myModal" class="modal">
+
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <script>
+        
+    </script>
+
+    <table class="table">
+        <div style="text-align: center;">
+            <img id="img" />
+        </div></br>
+        
+        <tr><td>Id :</td><td id="id_usuario"></td></tr>
+        <tr><td>Email :</td><td id="email"></td></tr>
+        <tr><td>First Name :</td><td id="first"></td></tr>
+        <tr><td>Last Name :</td><td id="last"></td></tr>
+    </table>
+  </div>
+
+</div>
+
+<script>
+    var modal = document.getElementById("myModal");
+
+    var btn = document.getElementById("myBtn");
+
+    var span = document.getElementsByClassName("close")[0];
+
+
+    function buscar_usuario_por_id(params) {
+        modal.style.display = "block";          
+        let datalocal = JSON.parse(localStorage.getItem("page1"));
+        if(params>=7){
+            datalocal = JSON.parse(localStorage.getItem("page2"));
+        }
+        let datos_usuario = datalocal.find(x => x.id == params);
+        console.log(datalocal);
+        document.getElementById("id_usuario").innerHTML = datos_usuario.id;  
+        document.getElementById("email").innerHTML = datos_usuario.email;  
+        document.getElementById("first").innerHTML = datos_usuario.first_name; 
+        document.getElementById("last").innerHTML = datos_usuario.last_name; 
+
+        var image = new Image();
+        image.src = datos_usuario.avatar;
+        console.log(datos_usuario.avatar);
+        document.getElementById("img").src = datos_usuario.avatar;
+    };
+    span.onclick = function() {
+    modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    }
+</script>
+</body>
+</html>
