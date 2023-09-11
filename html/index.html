@@ -55,10 +55,10 @@
                             
             console.log(datalocal)
             var table="<table class='table'>";
-            table+="<tr><td>ID</td><td>EMAIL</td><td>DETALLES</td></tr>";
+            table+="<tr><td>IMAGEN</td><td>NOMBRE</td><td>APELLIDO</td><td>EMAIL</td><td>DETALLES</td></tr>";
             for (let i= 0; i < datalocal.length; i++) 
             {
-                table+="<tr><td>"+datalocal[i].id+"</td><td>"+datalocal[i].email+"</td><td> <button class='btn primary' href='#modal' onclick='buscar_usuario_por_id("+datalocal[i].id+")'>"+"ver"+"</button></td></tr>";
+                table+="<tr><td>"+"<img width='50' height='50' src='"+datalocal[i].avatar+"'>"+"</td><td>"+datalocal[i].first_name+"</td><td>"+datalocal[i].last_name+"</td><td>"+datalocal[i].email+"</td><td> <button class='btn primary' href='#modal' onclick='buscar_usuario_por_id("+datalocal[i].id+")'>"+"ver"+"</button></td></tr>";
             }               
             table+="</table>";
             document.getElementById("tabla").innerHTML = table;
@@ -101,7 +101,7 @@
 
     <table class="table">
         <div style="text-align: center;">
-            <img id="img" />
+            <img id="img" width='200' height='200'/>
         </div></br>
         
         <tr><td>Id :</td><td id="id_usuario"></td></tr>
